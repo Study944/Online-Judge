@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: online-judge
+  # ?????
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/online-judge
+    username: root
+    password: 123456
+server:
+  port: 8111
+# knife4j??
+knife4j:
+  enable: true
+  openapi:
+    title: ZOJ
+    version: 1.0
+    group:
+      test1:
+        group-name: ??????
+        api-rule: package
+        api-rule-resources:
+          - com.onlinejudge.controller
