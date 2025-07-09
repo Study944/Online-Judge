@@ -1,23 +1,30 @@
 spring:
   application:
     name: online-judge
-  # ?????
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/online-judge
+    url: jdbc:mysql://localhost:3306/online_judge
     username: root
     password: 123456
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启日志
+  global-config:
+    db-config:
+      logic-delete-field: isDeleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 server:
   port: 8111
-# knife4j??
+# knife4j
 knife4j:
-  enable: true
+  enable: false
   openapi:
     title: ZOJ
     version: 1.0
     group:
       test1:
-        group-name: ??????
+        group-name: test
         api-rule: package
         api-rule-resources:
           - com.onlinejudge.controller

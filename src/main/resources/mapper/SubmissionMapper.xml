@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlinejudge.mapper.SubmissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.onlinejudge.model.entity.submission.Submission">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="questionId" column="question_id" jdbcType="BIGINT"/>
+            <result property="userName" column="user_name" jdbcType="BIGINT"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="language" column="language" jdbcType="VARCHAR"/>
+            <result property="state" column="state" jdbcType="VARCHAR"/>
+            <result property="judgeInfo" column="judge_info" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,question_id,user_name,
+        code,language,state,
+        judge_info,create_time
+    </sql>
+</mapper>

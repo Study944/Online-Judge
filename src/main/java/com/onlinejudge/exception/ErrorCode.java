@@ -1,6 +1,5 @@
 package com.onlinejudge.exception;
 
-import lombok.Data;
 import lombok.Getter;
 
 /**

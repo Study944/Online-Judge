@@ -1,0 +1,16 @@
+package com.onlinejudge.model.entity.question;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ * 判题配置
+ */
+@Data
+public class JudgeConfig implements Serializable {
+    // 内存限制
+    String MemoryLimits;
+    // 时间限制
+    String TimeLimits;
+}
