@@ -7,12 +7,14 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.onlinejudge.exception.BusinessException;
 import com.onlinejudge.exception.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
 /**
  * JWT工具类
  */
+@Slf4j
 public class JwtUtil {
 
     // 加密算法
@@ -50,6 +52,7 @@ public class JwtUtil {
         } catch (AlgorithmMismatchException e) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR,"加密算法不匹配");
         } catch (Exception e) {
+            log.error("JWT验证异常", e);
             throw new BusinessException(ErrorCode.OPERATION_ERROR);
         }
     }

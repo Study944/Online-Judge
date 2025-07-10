@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 public class JudgeConfig implements Serializable {
     // 内存限制
-    String MemoryLimits;
+    Long MemoryLimits;
     // 时间限制
-    String TimeLimits;
+    Long TimeLimits;
 }

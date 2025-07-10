@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SubmissionService extends IService<Submission> {
 
-    String submit(SubmissionAddDTO submissionAddDTO);
+    Long submit(SubmissionAddDTO submissionAddDTO);
 
     Wrapper<Submission> getQueryWrapper(SubmissionPageDTO submissionQueryDTO);
 }

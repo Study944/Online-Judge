@@ -28,3 +28,6 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.onlinejudge.controller
+# 沙箱参数
+sandbox :
+  type : test

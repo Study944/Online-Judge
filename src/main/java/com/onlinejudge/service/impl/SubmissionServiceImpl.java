@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.onlinejudge.common.ThrowUtil;
 import com.onlinejudge.common.UserContext;
 import com.onlinejudge.exception.ErrorCode;
+import com.onlinejudge.manager.judge.JudgeService;
 import com.onlinejudge.model.dto.submission.SubmissionAddDTO;
 import com.onlinejudge.model.dto.submission.SubmissionPageDTO;
 import com.onlinejudge.model.entity.User;
@@ -17,6 +18,7 @@ import com.onlinejudge.service.SubmissionService;
 import com.onlinejudge.mapper.SubmissionMapper;
 import com.onlinejudge.service.UserService;
 import jakarta.annotation.Resource;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,9 +32,12 @@ public class SubmissionServiceImpl extends ServiceImpl<SubmissionMapper, Submiss
     private QuestionService questionService;
     @Resource
     private UserService userService;
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
 
     @Override
-    public String submit(SubmissionAddDTO submissionAddDTO) {
+    public Long  submit(SubmissionAddDTO submissionAddDTO) {
         // 1.获取提交参数
         Long questionId = submissionAddDTO.getQuestionId();
         String code = submissionAddDTO.getCode();
@@ -56,7 +61,10 @@ public class SubmissionServiceImpl extends ServiceImpl<SubmissionMapper, Submiss
         // 4.返回提交
         boolean save = this.save(submission);
         ThrowUtil.throwIf(!save, ErrorCode.OPERATION_ERROR);
-        return "提交成功";
+        Long submissionId = submission.getId();
+        // 5.调用判题服务
+        judgeService.doJudge(submissionId);
+        return submissionId;
     }
 
     @Override

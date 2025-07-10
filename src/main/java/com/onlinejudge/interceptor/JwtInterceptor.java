@@ -19,7 +19,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 1.检验令牌
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
         ThrowUtil.throwIf(token == null, ErrorCode.NOT_LOGIN_ERROR);
         JwtUtil.verify(token);
         // 2.保存用户id

@@ -29,9 +29,9 @@ public class SubmissionController {
      * @param submissionAddDTO
      */
     @PostMapping("/submit")
-    public BaseResponse<String> submit(@RequestBody SubmissionAddDTO submissionAddDTO) {
+    public BaseResponse<Long> submit(@RequestBody SubmissionAddDTO submissionAddDTO) {
         ThrowUtil.throwIf(submissionAddDTO == null, ErrorCode.PARAMS_ERROR);
-        String res = submissionService.submit(submissionAddDTO);
+        Long res = submissionService.submit(submissionAddDTO);
         return ResultUtil.success(res);
     }
 
