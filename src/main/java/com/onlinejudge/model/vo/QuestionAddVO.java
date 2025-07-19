@@ -1,12 +1,9 @@
 package com.onlinejudge.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.onlinejudge.model.entity.question.JudgeCase;
-import com.onlinejudge.model.entity.question.JudgeConfig;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 题目新增响应
@@ -47,6 +44,11 @@ public class QuestionAddVO {
      * 测试用例
      */
     private String questionCases;
+
+    /**
+     * 示例
+     */
+    private String questionExample;
 
     /**
      * 题目配置

@@ -38,9 +38,14 @@ public class QuestionAddDTO {
     private List<String> questionType;
 
     /**
-     * 测试用例
+     * 判题数据--纯净数据
      */
     private List<JudgeCase> questionCases;
+
+    /**
+     * 示例
+     */
+    private List<JudgeCase> questionExample;
 
     /**
      * 题目配置

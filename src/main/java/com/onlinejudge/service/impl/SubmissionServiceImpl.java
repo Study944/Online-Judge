@@ -21,6 +21,8 @@ import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * 题目提交服务实现类
  */
@@ -63,7 +65,9 @@ public class SubmissionServiceImpl extends ServiceImpl<SubmissionMapper, Submiss
         ThrowUtil.throwIf(!save, ErrorCode.OPERATION_ERROR);
         Long submissionId = submission.getId();
         // 5.调用判题服务
-        judgeService.doJudge(submissionId);
+        CompletableFuture.runAsync(()->{
+            judgeService.doJudge(submissionId);
+        });
         return submissionId;
     }
 

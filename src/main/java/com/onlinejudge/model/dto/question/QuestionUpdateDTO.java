@@ -48,6 +48,11 @@ public class QuestionUpdateDTO {
     private List<JudgeCase> questionCases;
 
     /**
+     * 示例用例
+     */
+    private List<JudgeCase> questionExample;
+
+    /**
      * 题目配置
      */
     private JudgeConfig questionConfig;

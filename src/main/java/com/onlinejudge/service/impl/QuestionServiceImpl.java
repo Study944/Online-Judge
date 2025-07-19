@@ -47,6 +47,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         int questionDifficulty = questionAddDTO.getQuestionDifficulty();
         List<String> questionType = questionAddDTO.getQuestionType();
         List<JudgeCase> questionCases = questionAddDTO.getQuestionCases();
+        List<JudgeCase> questionExample = questionAddDTO.getQuestionExample();
         JudgeConfig questionConfig = questionAddDTO.getQuestionConfig();
         QuestionDifficultyEnum questionDifficultyEnum = QuestionDifficultyEnum.getByValue(questionDifficulty);
         ThrowUtil.throwIf(questionDifficultyEnum == null, ErrorCode.PARAMS_ERROR, "题目难度错误");
@@ -62,9 +63,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         question.setQuestionDifficulty(questionDifficulty);
         question.setQuestionType(CollUtil.join(questionType, ","));
         question.setQuestionCases(JSONUtil.toJsonStr(questionCases));
+        question.setQuestionExample(JSONUtil.toJsonStr(questionExample));
         question.setQuestionConfig(JSONUtil.toJsonStr(questionConfig));
         Long userId = UserContext.getUserId();
-        question.setCreateUser(Math.toIntExact(userId));
+        if (userId != null) question.setCreateUser(Math.toIntExact(userId));
         // 3.插入数据
         boolean save = this.save(question);
         ThrowUtil.throwIf(!save, ErrorCode.OPERATION_ERROR);
@@ -113,6 +115,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         String questionAnswer = questionUpdateDTO.getQuestionAnswer();
         List<String> questionType = questionUpdateDTO.getQuestionType();
         List<JudgeCase> questionCases = questionUpdateDTO.getQuestionCases();
+        List<JudgeCase> questionExample = questionUpdateDTO.getQuestionExample();
         JudgeConfig questionConfig = questionUpdateDTO.getQuestionConfig();
         // 2.设置更新参数，去除空字段
         UpdateWrapper<Question> updateWrapper = new UpdateWrapper<>();
@@ -123,6 +126,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         updateWrapper.set(ObjectUtil.isNotEmpty(questionDifficulty),"question_difficulty", questionDifficulty);
         updateWrapper.set(questionType != null,"question_type", JSONUtil.toJsonStr(questionType));
         updateWrapper.set(questionCases != null,"question_cases", questionCases);
+        updateWrapper.set(questionExample != null,"question_example", questionExample);
         updateWrapper.set(questionConfig != null,"question_config", questionConfig);
         boolean update = this.update(updateWrapper);
         ThrowUtil.throwIf(!update, ErrorCode.OPERATION_ERROR);

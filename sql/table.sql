@@ -29,7 +29,7 @@ create table if not exists question
     question_answer     text                                   not null comment '题目答案',
     question_difficulty tinyint default 1 comment '题目难度：easy-1/medium-2/hard-3',
     question_type       varchar(256) comment '题目类型：队列/栈/树',
-    question_cases      text                                   not null comment '测试用例',
+    question_cases      text                                   not null comment '判题数据',
     question_config     text                                   not null comment '题目配置',
     submission_count    int          default 0 comment '提交次数',
     accepted_count      int          default 0 comment '通过次数',
@@ -40,6 +40,10 @@ create table if not exists question
     is_delete           tinyint      default 0                 not null comment '是否删除',
     index idx_Id (id)
 ) comment '题目' collate = utf8mb4_unicode_ci;
+
+-- 新增题目实例questionExample
+alter table question
+    add column question_example text comment '题目实例';
 
 -- 题目提交表
 create table if not exists submission

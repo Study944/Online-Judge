@@ -47,9 +47,14 @@ public class Question {
     private String questionType;
 
     /**
-     * 测试用例
+     * 判题数据
      */
     private String questionCases;
+
+    /**
+     * 示例
+     */
+    private String questionExample;
 
     /**
      * 题目配置

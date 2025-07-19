@@ -8,14 +8,12 @@ import lombok.Getter;
 @Getter
 public enum SubmissionStateEnum {
     PENDING("等待处理", 0),
-    COMPILING("正在编译", 1),
-    RUNNING("正在运行", 2),
-    ACCEPTED("通过", 3),
-    WRONG_ANSWER("答案错误", 4),
-    TIME_LIMIT_EXCEEDED("时间超限", 5),
-    MEMORY_LIMIT_EXCEEDED("内存超限", 6),
-    RUNTIME_ERROR("运行时错误", 7),
-    SYNTAX_ERROR("语法错误", 8)
+    ACCEPTED("通过", 1),
+    WRONG_ANSWER("答案错误", 2),
+    TIME_LIMIT_EXCEEDED("时间超限", 3),
+    MEMORY_LIMIT_EXCEEDED("内存超限", 4),
+    COMPILE_ERROR("编译错误", 5),
+    RUNTIME_ERROR("运行错误", 6),
     ;
 
     private final String name;
@@ -24,5 +22,13 @@ public enum SubmissionStateEnum {
     SubmissionStateEnum(String name, int value) {
         this.name = name;
         this.value = value;
+    }
+    public static SubmissionStateEnum getByValue(Integer value) {
+        for (SubmissionStateEnum valueEnum : values()) {
+            if (valueEnum.value == value) {
+                return valueEnum;
+            }
+        }
+        return null;
     }
 }

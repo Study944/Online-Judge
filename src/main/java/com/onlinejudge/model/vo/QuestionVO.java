@@ -36,7 +36,7 @@ public class QuestionVO {
     /**
      * 测试用例
      */
-    private String questionCases;
+    private String questionExample;
 
     /**
      * 题目类型：队列/栈/树

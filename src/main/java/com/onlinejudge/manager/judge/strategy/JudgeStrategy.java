@@ -7,6 +7,6 @@ import com.onlinejudge.model.enums.SubmissionStateEnum;
  */
 public interface JudgeStrategy {
 
-    public SubmissionStateEnum doJudge(JudgeContext judgeContext);
+    SubmissionStateEnum doJudge(JudgeContext judgeContext);
 
 }

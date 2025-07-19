@@ -64,8 +64,8 @@ public class JudgeServiceImpl implements JudgeService {
         Submission submissionUpdate = new Submission();
         submissionUpdate.setId(submissionId);
         submissionUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
-        SubmissionStateEnum submissionState = SubmissionStateEnum.RUNTIME_ERROR;
-        submissionUpdate.setState(submissionState.getValue());
+        SubmissionStateEnum submissionStateEnum = SubmissionStateEnum.getByValue(codeSandBoxResult.getStatus());
+        submissionUpdate.setState(submissionStateEnum.getValue());
         // 构建策略模式上下文
         JudgeContext judgeContext = JudgeContext.builder()
                 .submissionId(submissionId)
@@ -76,9 +76,12 @@ public class JudgeServiceImpl implements JudgeService {
                 .language(language)
                 .build();
         // 4.策略模式获取判题结果
-        SubmissionStateEnum submissionStateEnum = judgeStrategyManager.doJudge(judgeContext);
-        if (submissionStateEnum != null){
-            submissionUpdate.setState(submissionStateEnum.getValue());
+        // 代码沙箱响应的状态不为1则代表运行存在错误，直接设置状态为对应的字段
+        if (codeSandBoxResult.getStatus()==1) {
+            submissionStateEnum = judgeStrategyManager.doJudge(judgeContext);
+            if (submissionStateEnum != null){
+                submissionUpdate.setState(submissionStateEnum.getValue());
+            }
         }
         boolean update = submissionService.updateById(submissionUpdate);
         ThrowUtil.throwIf(!update, ErrorCode.OPERATION_ERROR);

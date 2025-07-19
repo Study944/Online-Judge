@@ -7,13 +7,17 @@ import com.onlinejudge.common.BaseResponse;
 import com.onlinejudge.common.ResultUtil;
 import com.onlinejudge.common.ThrowUtil;
 import com.onlinejudge.exception.ErrorCode;
+import com.onlinejudge.manager.ai.SpringAiManager;
 import com.onlinejudge.model.dto.question.QuestionAddDTO;
 import com.onlinejudge.model.dto.question.QuestionPageDTO;
 import com.onlinejudge.model.dto.question.QuestionUpdateDTO;
 import com.onlinejudge.model.entity.question.Question;
+import com.onlinejudge.model.entity.submission.Submission;
+import com.onlinejudge.model.enums.SubmissionStateEnum;
 import com.onlinejudge.model.vo.QuestionAddVO;
 import com.onlinejudge.model.vo.QuestionVO;
 import com.onlinejudge.service.QuestionService;
+import com.onlinejudge.service.SubmissionService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +29,11 @@ public class QuestionController {
 
     @Resource
     private QuestionService questionService;
+    @Resource
+    private SubmissionService submissionService;
+    @Resource
+    SpringAiManager springAiManager;
+
 
     /**
      * 添加题目
@@ -63,6 +72,17 @@ public class QuestionController {
         List<QuestionVO> questionVOList = page.getRecords().stream()
                 .map(question -> BeanUtil.copyProperties(question, QuestionVO.class))
                 .toList();
+        for (QuestionVO question : questionVOList) {
+            List<Submission> submissionList = submissionService.lambdaQuery()
+                    .eq(Submission::getQuestionId, question.getId())
+                    .select(Submission::getState)
+                    .list();
+            question.setSubmissionCount(submissionList.size());
+            Long count = submissionList.stream()
+                    .filter(submission -> submission.getState() == SubmissionStateEnum.ACCEPTED.getValue())
+                    .count();
+            question.setAcceptedCount(count.intValue());
+        }
         questionVOPage.setRecords(questionVOList);
         return ResultUtil.success(questionVOPage);
     }
@@ -77,6 +97,20 @@ public class QuestionController {
         Integer size = questionPageDTO.getSize();
         Page<Question> page = questionService.page(new Page<>(current, size),
                 questionService.getQueryWrapper(questionPageDTO));
+        // 设置提交数和通过数
+        for (Question question : page.getRecords()) {
+            // 获取改题目的所有提交记录
+            List<Submission> submissionList = submissionService.lambdaQuery()
+                    .eq(Submission::getQuestionId, question.getId())
+                    .select(Submission::getState)
+                    .list();
+            question.setSubmissionCount(submissionList.size());
+            // 统计通过数
+            Long count = submissionList.stream()
+                    .filter(submission -> submission.getState() == SubmissionStateEnum.ACCEPTED.getValue())
+                    .count();
+            question.setAcceptedCount(count.intValue());
+        }
         return ResultUtil.success(page);
     }
 
@@ -99,6 +133,14 @@ public class QuestionController {
         ThrowUtil.throwIf(questionUpdateDTO == null, ErrorCode.PARAMS_ERROR);
         Question update = questionService.updateQuestion(questionUpdateDTO);
         return ResultUtil.success(update);
+    }
+
+    @PostMapping("/generateQuestion")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<QuestionAddVO> generateQuestion(@RequestBody String prompt) {
+        QuestionAddDTO questionAddDTO = springAiManager.algorithmGeneration(prompt);
+        QuestionAddVO res = questionService.addQuestion(questionAddDTO);
+        return ResultUtil.success(res);
     }
 
 }
