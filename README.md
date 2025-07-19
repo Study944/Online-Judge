@@ -3,6 +3,14 @@
 ## 项目简介
 Online Judge 是一个基于 Spring Boot 的在线判题系统，支持用户提交代码并自动判题。本项目集成了 [JavaNative-Sandbox](https://github.com/Study944/JavaNative-Sandbox) 作为代码执行沙箱，提供安全高效的代码运行环境。
 
+<img width="3056" height="1668" alt="image" src="https://github.com/user-attachments/assets/aa333874-8bab-4b5a-82ec-075db2e23203" />
+
+<img width="3056" height="1668" alt="image" src="https://github.com/user-attachments/assets/0df62dc3-ec85-4fc6-9bc3-c4153064924a" />
+
+<img width="3056" height="1668" alt="image" src="https://github.com/user-attachments/assets/1abd361c-8f5e-411d-884d-bed86603f026" />
+
+<img width="3056" height="1668" alt="image" src="https://github.com/user-attachments/assets/21ccf8a2-1ac7-426d-a9a6-6e1e2d58dde8" />
+
 ## 技术栈
 - **后端框架**: Spring Boot 3.2.0
 - **数据库**: MySQL
